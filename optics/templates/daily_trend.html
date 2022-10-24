@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Trend 조회</title>
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>-->
+    <style>
+        h1{
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        h3{
+            margin-left: 20px;
+            margin-top: 15px;
+        }
+        .my-form{
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+        .input{
+            display: flex;
+            align-items: center;
+            
+        }
+        .info{
+            margin-left: 20px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .form-select{
+            margin-left: 30px;
+        }
+        .pick{
+            margin-left: 30px;
+            margin-right: 50px;
+        }
+        .btn{
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+        {% include 'navbar.html' %}
+        <h3 style="color: gray; margin-top: 25px;">일일 단위로 각 광학특성에 대한 평균 데이터를 제공합니다.</h3>
+        <br>
+        <h5 style="color: gray;margin-left: 25px;">입력날짜를 기준으로 최근 10일 간의 결과를 제공합니다.</h5>
+        <div class="my-form">
+        <form action="{{ url_for('trend.cal_trend') }}" method="POST">
+            <div class="input">
+                <div class="info">
+                    <div>
+                    <label>조회 일자</label>
+                    </div>
+                    <div>
+                    <input style="margin-left: 20px;" type="date" class="form-control" name="date" id="today" class="pick">
+                    </div>
+                </div>
+                <div class="info">
+                    <div>
+                    <label style="margin-left: 30px;">Draw호기 번호</label>
+                    </div>
+                    {% if drawList %}
+                    <div>
+                    <select class="form-select" name="draw">
+                        {% for draw in drawList %}
+                            <option value="{{ draw }}">{{ draw }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                    {% endif %}
+                </div>
+            
+                <div class="info">
+                    <input class="btn btn-dark" type="submit" value="조 회">
+                </div>
+            </div>
+        </form>
+        </div>
+    <!--<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>-->
+    <script>
+        let today = new Date();
+        document.getElementById("today").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    </script>
+</body>
+</html>

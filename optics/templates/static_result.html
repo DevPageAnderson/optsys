@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기초 통계 조회결과</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!--<script src="{{ url_for('static', filename='chart.min.js') }}"></script>-->
+    <style>
+        h4{
+            margin-left: 30px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+        {% include 'navbar.html' %}
+
+        {% if preform == 'None' %}
+            <h5 style="color: gray; margin-top: 30px; margin-left: 50px;">기초통계 데이터 입니다</h5>
+        {% else %}
+            <h5 style="color: gray; margin-top: 30px; margin-left: 50px;">{{ preform }} 프리폼의 기초통계 데이터 입니다</h5>
+        {% endif %}
+
+        <div class="container my-3">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="thead-dark">
+                        <th>광학특성</th>
+                        <th>25%</th>
+                        <th>평균</th>
+                        <th>75%</th>
+                        <th>표준편차</th>
+                        <th>cpk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if valueList %}
+                        {% for list in valueList %}
+                            <tr>
+                                <td>{{ list[0] }}</td>
+                                <td>{{ list[1] }}</td>
+                                <td>{{ list[2] }}</td>
+                                <td>{{ list[3] }}</td>
+                                <td>{{ list[4] }}</td>
+                                <td>{{ list[5] }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+</body>
+</html>

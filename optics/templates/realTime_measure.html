@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검사능력 조회</title>
+</head>
+<body>
+        {% include 'navbar.html' %}
+        <h3>측정실 검사 현황을 조회 합니다</h3>
+        <p>조회하고자하는 날짜 구간을 입력하세요</p>
+
+        <form action="{{ url_for('realTime.cal_measure') }}" method="POST">
+            <input type="date" name="start_date">
+            <input type="date" name="stop_date">
+            <input type="submit" value="조 회">
+        </form>
+</body>
+</html>

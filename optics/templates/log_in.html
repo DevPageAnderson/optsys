@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>OptSys</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signin.css') }}">
+    {%with messages = get_flashed_messages()%}
+    {%if messages %}
+      <script type="text/javascript">
+        alert("{{messages[-1]}}");
+      </script>
+      {%endif%}
+    {%endwith%}
+  </head>
+
+  <body class="text-center">
+    
+    <form class="form-signin" action="{{url_for('main.home')}}" method="post">
+ 
+      <img class="mb-4" src="{{ url_for('static', filename='images/company-logo.svg') }}" alt="" width="72" height="72">
+
+      <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+
+      <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
+
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me">E-mail 저장 
+        </label>
+      </div>
+
+      <button class="btn btn-lg btn-primary btn-block" type="submit" >로그인</button>
+
+      <p class="mt-5 mb-3 text-muted">&copy; LS전선 통신사업부/광섬유 측정실</p>
+    
+    </form>
+
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+
+  </body>
+
+</html>
+

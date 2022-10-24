@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTQ 조회</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!--<script src="{{ url_for('static', filename='chart.min.js') }}"></script>-->
+    <style>
+        h1{
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        h3{
+            margin-left: 20px;
+            margin-top: 15px;
+        }
+        .my-form{
+            margin-left: 20px;
+            margin-top: 15px;
+        }
+        .info{
+            margin-top: 15px;
+        }
+        .part{
+            display: flex;
+            justify-content: space-between;
+        }
+        .character-table{
+            margin-top: 30px;
+            margin-right: 150px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h3 style="color: gray;margin-top: 30px;">일일 단위로 CTQ 특성에 대한 평균 데이터를 제공합니다.</h3>
+    <h5 style="color: gray;margin-left: 20px;margin-top: 20px;">입력날짜를 기준으로 최근 10일 간의 결과를 제공합니다.</h5>
+
+    <div class="part">
+        <div class="my-form">
+            <form action="{{ url_for('ctq.cal_ctq') }}" method="POST">
+                <div class="info">
+                    <label>조회 기준일자</label>
+                    <input type="date" class="form-control" name="date" id="today">
+                </div>
+                    <div class="info">
+                        <label>광학특성</label>
+                    {% if itemList %}
+                        <select class="form-select" name="item" style="font-size: 17px;">
+                            {% for item in itemList %}
+                                <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+                <div class="info">
+                    <input class="btn btn-dark" type="submit" value="조 회" style="width: 240px;">
+                </div>
+            </form>
+        </div>
+        <div class="character-table">
+            <h5 style="margin: 0px 20px 20px 20px;">광학특성 조회 코드</h5>
+            <div class="container" style="width: 500px;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="thead-dark">
+                            <th>광학 특성</th>
+                            <th>조회 코드</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1310nm 광손실</td>
+                            <td>att1310ose</td>
+                        </tr>
+                        <tr>
+                            <td>1550nm 광손실</td>
+                            <td>att1550ose</td>
+                        </tr>
+                        <tr>
+                            <td>MFD</td>
+                            <td>mfd1310ose</td>
+                        </tr>
+                        <tr>
+                            <td>차단파장</td>
+                            <td>fiberCutoffOse</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>클래드외경</td>
+                            <td>cladDiaOse</td>
+                        </tr>
+                        <tr>
+                            <td>클래드비원율</td>
+                            <td>cladOvoOse</td>
+                        </tr>
+                        <tr>
+                            <td>ECC</td>
+                            <td>eccOse</td>
+                        </tr>
+
+                        <tr>
+                            <td>코팅외경 2차</td>
+                            <td>coat2Dia</td>
+                        </tr>
+
+                        <tr>
+                            <td>코팅외경 1차</td>
+                            <td>coat1Dia</td>
+                        </tr>
+
+                        <tr>
+                            <td>영분산 파장</td>
+                            <td>zwl</td>
+                        </tr>
+
+                        <tr>
+                            <td>기울기</td>
+                            <td>slope</td>
+                        </tr>
+
+                        <tr>
+                            <td>색분산 계수 1285nm</td>
+                            <td>disp1285</td>
+                        </tr>
+
+                        <tr>
+                            <td>색분산 계수 1290nm</td>
+                            <td>disp1290</td>
+                        </tr>
+
+                        <tr>
+                            <td>색분산 계수 1550nm</td>
+                            <td>disp1550</td>
+                        </tr>
+
+                        <tr>
+                            <td>PMD</td>
+                            <td>pmd</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+    <script>
+        let today = new Date();
+        document.getElementById("today").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>머신러닝</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>
+    <script>
+        function loading(){
+            document.getElementById("loadingbar").style.display="block";
+        }
+    </script>
+    <style>
+        .content{
+            display: flex;
+            justify-content:space-evenly;
+            align-content: center;
+            padding: 10px;
+        }
+        .card{
+            width: 400px;
+            height: 350px;
+        }
+        .img-box{
+            width: 400px;
+            height: 250px;
+        }
+        .row1{
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 50px;
+            margin-left: 120px;
+            margin-right: 120px;
+        }
+        .row2{
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 50px;
+            margin-left: 120px;
+            margin-right: 120px;
+        }
+        img{
+            padding: 20px;
+        }
+        .input{
+            display:flex;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h3 style="margin-left: 100px; padding: 10px; color: gray; margin-top: 20px;">광섬유 차단파장 특성 예측 모델</h3>
+    <h5 style="margin-left: 100px; padding: 10px; color: gray">검사, 제조, 원자재 데이터 기반의 모델링 결과로 광학특성을 예측합니다.</h5>
+    <div class="totoal-container">
+        <div class="row1">
+        <div class="container-box">
+            <div class="card">
+                <div class="img-box">
+                <img src="{{ url_for('static', filename='images/LGBM.png') }}" width="400px" height="200" class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">LightGBM 알고리즘</h5>
+                    <p class="card-text">Tree 모델로 회귀모델을 구현합니다.</p>
+                    <a href="#" class="btn btn-primary">관련 링크</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-box">
+            <div class="card">
+                <div class="img-box">
+                <img src="{{ url_for('static', filename='images/sample_tracking.png') }}" width="400px" height="250" class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">LightGBM 알고리즘</h5>
+                    <p class="card-text">Tree 모델로 회귀모델을 구현합니다.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row2">
+        <div class="container-box">
+            <div class="card">
+                <div class="img-box">
+                    <form action="{{ url_for('machineLearning.upload') }}" method="POST" enctype="multipart/form-data">
+                    <div class="input">
+                        <div class="in">
+                        <input class="form-control" type="file" name="csv_name">
+                        </div>
+                        <div class="in">
+                        <input type="submit" class="btn btn-dark" id="btn" onclick="loading();" value="예측 실행">
+                        </div>
+
+                    </div>
+                    <div class="predict-table" style="width: 100%; height: 250px; overflow: auto;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="thead-dark">
+                                    <th>꼬리표 번호</th>
+                                    <th>예측 차단파장 [nm]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if spoolID %}
+                                {% for i in range(0, 20) %}
+                                    <tr>
+                                        <td>{{ spoolID[i] }}</td>
+                                        <td>{{ y_pred[i] }}</td>
+                                    </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    </form>
+                </div>
+                <div class="card-body">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="container-box">
+            <div class="card">
+                <div class="img-box">
+                <img src="{{ url_for('static', filename='images/importance_cutoff.png') }}" class="card-img-top" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">LightGBM 알고리즘</h5>
+                    <p class="card-text">Tree 모델로 회귀모델을 구현합니다.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</body>
+</html>

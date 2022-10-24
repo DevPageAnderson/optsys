@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수율 조회결과</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>
+    <style>
+        .box1{
+           margin-left: 50px;
+           margin-top: 30px;
+        }
+        .plot{
+            display: flex;
+            justify-content: center;
+        }
+        #myChart1{
+            margin-right: 100px;
+        }
+        #myChart2{
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+        {% include 'navbar.html' %}
+        <div class="box1">
+        <p style="color: gray;">수율 분석 완료...</p>
+        <p style="color: gray;">전체 수율 : {{ result }} %</p>
+        </div>
+        <div class="plot" style="margin-left: 50px; margin-top: 30px">
+            <div>
+            <canvas class="fig" id="myChart1" width="600" height="530"></canvas>
+            </div>
+            <div>
+            <canvas class="fig" id="myChart2" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <script>
+            var ctx1 = document.getElementById('myChart1');
+            //var ctx2 = document.getElementById('myChart2');
+
+            var chartInfo = {
+                type: 'bar',
+                data: {
+                    labels: ['1310광손실', '1550광손실', '1383광손실', '1625광손실', 'MFD',
+                    '차단파장', '클래드외경', '클래드 비원율', 'ECC', '코팅외경', '영분산파장',
+                    '기울기', '색분산계수 1285nm', '색분산계수 1290nm', '색분산계수 1550nm',
+                    'pmd',
+                ],
+                    datasets: [{
+                        label: '수율 분석 결과',
+                        data: [{% for rate in passCountList %}
+                                "{{rate}}",
+                                {% endfor %}
+                            ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: '수율 [%]',
+                                color: '#191',
+                                font: {
+                                        size: 15,
+                                        weight: 'bold',
+                                        lineHeight: 1.2,
+                                },
+                                padding: {top: 10, left: 0, right: 0, bottom: 0}
+                            }
+                        },
+                    },
+                }
+            };
+
+        var myChart1 = new Chart(ctx1, chartInfo);
+        //var myChart2 = new Chart(ctx2, chartInfo);
+        </script>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+</body>
+</html>

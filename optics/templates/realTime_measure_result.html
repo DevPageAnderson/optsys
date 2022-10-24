@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검사능력 조회결과</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>
+</head>
+<body>
+        {% include 'navbar.html' %}
+        <h3>날짜 구간의 측정실 검사 현황 결과 입니다</h3>
+        <div class="container my-3">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="thead-dark">
+                        <th>양산검사 길이 [km]</th>
+                        <th>양산검사 스풀 수 [EA]</th>
+                        <th>재작업검사 길이[km]</th>
+                        <th>재작업검사 스풀 수 [EA]</th>
+                        <th>평균 조장 [km]</th>
+                        <th>75km 이상 스풀 수 [EA]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if results %}
+                            <tr>
+                                {% for value in results %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3>날짜 별 평균 검사 보빈 수 추이</h3>
+
+        <canvas id="myChart" width="400" height="400"></canvas>
+        <script>
+            var ctx = document.getElementById('myChart');
+
+            var chartInfo = {
+                type: 'bar',
+                data: {
+                    labels: [{% for date in dates %}
+                                "{{ date }}",
+                                {% endfor %}
+                            ],
+                    datasets: [{
+                        label: '# 검사현황:',
+                        data: [{% for value in valueList %}
+                                "{{value}}",
+                                {% endfor %}
+                            ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                }
+            };
+
+            var myChart = new Chart(ctx, chartInfo);
+        </script>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+</body>
+</html>

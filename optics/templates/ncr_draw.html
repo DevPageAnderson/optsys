@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw NCR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>
+    <style>
+        h3{
+            margin: 50px;
+        }
+        .total{
+            display: flex;
+            justify-content: space-around;
+            margin: 30px;
+        }
+        h5{
+            margin: 20px;
+        }
+        .date{
+            display: flex;
+            justify-content: space-around;
+        }
+        .search-date{
+            margin: 0px 70px 20px 0px;
+        }
+        .info{
+            margin: 20px 0px 20px 0px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <br>
+    <h3 style="color: grey;">Draw 공정의 이상내역을 조회합니다.</h3>
+    <div class="total">
+        <div class="part1">
+            <h5>조회 정보</h5>
+            <form action="{{ url_for('ncr.cal_draw') }}" method="POST">
+                <div class="info">
+                <div class="date">
+                    <div class="search-date form-style">
+                        <label>조회 시작일</label>
+                        <input type="date" class="form-control" name="start_date" id="today_start">
+
+
+                    </div>
+                    <div class="search-date form-style">
+                        <label>조회 종료일</label>
+                        <input type="date" class="form-control" name="stop_date" id="today_stop">
+                    </div>
+
+                </div>
+                </div>
+
+                
+                <div class="info">
+                    <label>프리폼</label>
+                        {% if preformList %}
+                            <select class="form-select" name="preform" style="font-size: 17px;">
+                                {% for preform in preformList %}
+                                    {% if preform != 'None' %}
+                                    {% if preform == 'AW' %}
+                                    <option selected="selected" value="{{ preform }}">{{ preform }}</option>
+                                    {% else %}
+                                    <option value="{{ preform }}">{{ preform }}</option>
+                                    {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                </div>
+                <div class="info">
+                    <label>레진</label>
+                    {% if resinList %}
+                        <select class="form-select" name="resin" style="font-size: 17px;">
+                            {% for resin in resinList %}
+                                {% if resin != 'None' %}
+                                {% if resin == 'V' %}
+                                <option selected="selected" value="{{ resin }}">{{ resin }}</option>
+                                {% else %}
+                                <option value="{{ resin }}">{{ resin }}</option>
+                                {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+                <div class="info">
+                    <label>이상코드</label>
+                    {% if ncrList %}
+                        <select class="form-select" name="ncr" style="font-size: 17px;">
+                            {% for ncr in ncrList %}
+                                {% if ncr != 'None' %}
+                                {% if ncr == 'G1' %}
+                                <option selected="selected" value="{{ ncr }}">{{ ncr }}</option>
+                                {% else %}
+                                <option value="{{ ncr }}">{{ ncr }}</option>
+                                {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+                <input class="btn btn-dark" type="submit" value="조 회">
+            </form>
+        </div>
+        <div class="part2">
+            <h5>이상내역 코드</h5>
+            <div class="container" style="width: 500px;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="thead-dark">
+                            <th>이상내역</th>
+                            <th>조회 코드</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>G1</td>
+                            <td>양파장 단차</td>
+                        </tr>
+                        <tr>
+                            <td>G2</td>
+                            <td>단차</td>
+                        </tr>
+                        <tr>
+                            <td>G3</td>
+                            <td>단차</td>
+                        </tr>
+                        <tr>
+                            <td>G4</td>
+                            <td>버블</td>
+                        </tr>
+    
+                        <tr>
+                            <td>G5</td>
+                            <td>휨</td>
+                        </tr>
+    
+                        <tr>
+                            <td>O7</td>
+                            <td>차단파장</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+    <script>
+        let today = new Date();
+        document.getElementById("today_start").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        document.getElementById("today_stop").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>
+    <style>
+      .bar{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+      }
+      .nav-item:hover{
+        border-radius: 5px;
+        border: 2px solid wheat;
+        font-weight: bold;
+      }
+      .navbar{
+        background-color: blueviolet;
+      }
+    </style>
+
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-light" style="height: 60px;">
+      <div class="container-fluid" style="background-color: rgb(242, 242, 242);">
+        <img src="{{ url_for('static', filename='images/company-logo.svg') }}" alt="" width="70" height="70">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 bar">
+
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{ url_for('main.re_home') }}">Home</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                품질정보
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ url_for('state.go_static') }}">기초통계</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('trend.go_trend') }}">Daily Trend</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('ctq.go_ctq') }}">주요 CTQ</a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                이상내역
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ url_for('ncr.go_draw') }}">Draw 공정</a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{{ url_for('yield.go_yield') }}">수율분석</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{{ url_for('machineLearning.go_ML') }}">머신러닝</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                information
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ url_for('information.migration') }}">Data migration</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('user.registrate') }}">사용자 등록</a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="guest" href="{{ url_for('main.log_in') }}">{{ g.user.userEmail }}님 환영합니다 (Log-out)</a>
+            </li>
+
+          </ul>
+      </div>
+    </nav>
+    <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기초통계 조회</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!--<script src="{{ url_for('static', filename='chart.min.js') }}"></script>-->
+    <style>
+        .my-header{
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+        .input-info{
+            margin-top: 30px;
+            margin-left: 20px;
+        }
+        .h3{
+            margin-top: 15px;
+        }
+        .date{
+            margin-top: 15px;
+        }
+        .preform{
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .my-section{
+            display: flex;
+            justify-content:space-between;
+        }
+        .preform-table{
+            margin-top: 30px;
+            margin-right: 50px;
+        }
+        .total{
+            display: flex;
+            justify-content: space-around;
+        }
+        .form-style{
+            margin: 30px;
+        }
+        .form>.form-style{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .picker{
+            margin-left: 65px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="total">
+        <div class="part1">
+            <h3 class="my-header" style="color: gray;">기초통계 데이터를 제공합니다.</h3>
+            <div class="my-section">
+                <div class="input-info">
+                    <h3 class="h5" style="color: gray;">조회하고자하는 날짜 구간을 선택하세요.</h5>
+                    <h3 class="h5" style="color: gray;">프리폼 지정은 필수 선택사항이 아닙니다.</h5>
+                    <br>
+
+                    <form action="{{ url_for('state.cal_total') }}" method="POST">
+                            <div class="date form-style">
+                                    <label>조회 시작일</label>
+                                    <input type="date" class="form-control" name="start_date" id="today_start" class="picker" width="900">
+                                    <br><br>
+                                    <label>조회 종료일</label>
+                                    <input type="date" class="form-control" name="stop_date" id="today_stop" class="picker" width="500">
+                            </div>
+                            {% if preformList %}
+                            <div class="preform form-style">
+                                <label>프리폼 type</label>
+                                <select class="form-select" name="preform" style="font-size: 17px; width: 180px;">
+                                    {% for preform in preformList %}
+                                        {% if preform == 'None' %}
+                                            <option value="{{ preform }}">프리폼 구분 없음</option>
+                                        {% else %}
+                                            <option value="{{ preform }}">{{ preform }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% endif %}
+                            <div style="text-align: center;">
+                            <input type="submit" class="btn btn-dark" value="조 회" style="width: 245px; height: 50px;">
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="part2">
+            <h3 class="my-header" style="color: gray;">프리폼 제조사 정보</h3>
+            <div class="preform-table">
+                    <div class="container" style="width: 500px;">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="thead-dark">
+                                    <th>프리폼 type</th>
+                                    <th>프리폼 정보</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AW</td>
+                                    <td>신에츠사 A2</td>
+                                </tr>
+                                <tr>
+                                    <td>ZM</td>
+                                    <td>스미토모사 A1</td>
+                                </tr>
+                                <tr>
+                                    <td>ZL</td>
+                                    <td>스미토모사(대형) A1</td>
+                                </tr>
+                                <tr>
+                                    <td>2M</td>
+                                    <td>스미토모사</td>
+                                </tr>
+                                <tr>
+                                    <td>LM</td>
+                                    <td>스미토모사</td>
+                                </tr>
+                                <tr>
+                                    <td>LE</td>
+                                    <td>신에츠사</td>
+                                </tr>
+                                <tr>
+                                    <td>SE</td>
+                                    <td>신에츠사</td>
+                                </tr>
+                                <tr>
+                                    <td>W0</td>
+                                    <td>신에츠사</td>
+                                </tr>
+                                <tr>
+                                    <td>SM</td>
+                                    <td>스미토모사</td>
+                                </tr>
+                                <tr>
+                                    <td>WT</td>
+                                    <td>스미토모사</td>
+                                </tr>
+                                <tr>
+                                    <td>Coat200</td>
+                                    <td>신에츠 200um</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+    <script>
+        let today = new Date();
+        document.getElementById("today_start").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        document.getElementById("today_stop").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    </script>
+</body>
+</html>

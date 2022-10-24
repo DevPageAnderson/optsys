@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+</head>
+<body>
+    <h3>포장 현황 입니다</h3>
+
+    <div class="character-table">
+        <div class="container" style="width: 1000px;">
+            <table class="table table-borderd">
+                <thead>
+                    <tr class="thead-dark">
+                        <th>고객 명</th>
+                        <th>주문 길이</th>
+                        <th>포장 완료 길이</th>
+                        <th>포장 완료 스풀 개수</th>
+                        <th>기준 조장</th>
+                        <th>진척율(%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in packing_list %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4] }}</td>
+                        <td>{{ row[5] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+</body>
+</html>

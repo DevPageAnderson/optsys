@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Migration</title>
+    <script>
+        function loading(){
+            document.getElementById("loadingbar").style.display="block";
+        }
+    </script>
+    <style>
+        #loadingbar{
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            position: fixed;
+            display: block;
+            opacity: 0.7;
+            background-color: #fff;
+            z-index: 99;
+            text-align: center;
+        }
+        .spinner-border{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 100;
+        }
+        .file-form{
+            width: 40%;
+            margin-left: 50px;
+        }
+        .input{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .register-preform{
+            width: 40%;
+            margin-left: 50px;
+        }
+        .re{
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <div id="loadingbar" style="display: none;">
+        <div class="spinner-border" role="status" style="width: 10em; height: 10em;">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+
+    <h3 style="color: gray; margin-top: 30px; margin-left: 50px;">광섬유 측정 데이터를 일괄 마이그레이션 합니다.</h3>
+    <p style="color: gray; margin-left: 50px; margin-top: 15px"> 품질이력시스템에서 다운받은 CSV파일을 업로드하면 됩니다.</p>
+    <p style="color: gray; margin-left: 50px">파일 이름은 meas.csv로 지정되어 있습니다</p>
+    <div class="file-form">
+        <form action="{{ url_for('information.upload') }}" method="POST" enctype="multipart/form-data">
+        <div class="input">
+            <div class="in">
+            <input class="form-control" type="file" name="csv_name">
+            </div>
+            <div class="in">
+            <input type="submit" class="btn btn-dark" id="btn" onclick="loading();" value=" 파일 업로드 시작">
+            </div>
+        </div>
+        </form>
+    </div>
+    <br>
+
+    <h3 style="color: gray; margin-top: 30px; margin-left: 50px;">프리폼 정보를 입력합니다.</h3>
+    <div class="register-preform">
+    <form action="{{ url_for('information.preformRegister') }}" method="POST">
+        <div class="re">
+            <div>
+                <input type="text" class="form-control" name="preform_name" placeholder="스풀번호13자리 앞2자리">
+            </div>
+            <div>
+                <input type="text" class="form-control" name="preform_description" placeholder="프리폼 설명">
+            </div>
+            <div>
+                <input type="submit" class="btn btn-dark" value="프리폼 등록">
+            </div>
+        </div>
+    </form>
+    </div>
+    <br>
+    <h3 style="color: gray; margin-top: 30px; margin-left: 50px;">레진 정보를 입력합니다.</h3>
+    <div class="register-preform">
+    <form action="{{ url_for('information.resinRegister') }}" method="POST">
+        <div class="re">
+            <div class>
+            <input type="text" class="form-control" name="resin_name" placeholder="레진 정보입력">
+            </div>
+            <div>
+            <input type="text" class="form-control" name="resin_description" placeholder="레진 설명">
+            </div>
+            <div>
+            <input type="submit" class="btn btn-dark" value="레진 등록">
+            </div>
+        </div>
+    </form>
+    </div>
+
+    <h3 style="color: gray; margin-top: 30px; margin-left: 50px;">이상코드를 입력합니다.</h3>
+    <div class="register-preform">
+    <form action="{{ url_for('information.ncrCodeRegister') }}" method="POST">
+        <div class="re">
+        <div>
+            <input type="text" class="form-control" name="ncr_code" placeholder="이상코드 입력">
+        </div>
+        <div>
+            <input type="text" class="form-control" name="ncr_description" placeholder="이상코드 설명">
+        </div>
+        <div>
+            <input type="submit" class="btn btn-dark" value="이상코드 등록">
+        </div>
+        </div>
+    </form>
+    </div>
+
+    <h3 style="color: gray; margin-top: 30px; margin-left: 50px;">드로우 호기를 입력합니다.</h3>
+    <div class="register-preform">
+    <form action="{{ url_for('information.drawNumberRegister') }}" method="POST">
+        <div class="re">
+            <div>
+            <input type="text" class="form-control" name="draw_number" placeholder="드로우 번호 입력">
+            </div>
+            <div>
+            <input type="submit" class="btn btn-dark" value="드로우호기 등록">
+            </div>
+        </div>
+    </form>
+    </div>
+    <br><br><br>
+</body>
+</html>

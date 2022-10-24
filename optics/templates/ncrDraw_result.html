@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw NCR 결과</title>
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">-->
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>
+    <style>
+        .chart-area{
+            margin-left: 100px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+        {% include 'navbar.html' %}
+
+        
+        <h3 style="margin-left: 50px; color: gray; margin-top: 20px;">{{ start }}일 부터 {{ stop }}일 까지 이상코드 {{ ncr }} 발생 비율 입니다.</h3>
+        <h5 style="margin-left: 50px; color: gray; margin-top: 20px;">{{ resin }}레진 , {{ preform }}프리폼</h5>
+
+        <div class="ncr-chart">
+            <canvas class="chart-area" id="myChart" width="400" height="400"></canvas>
+        </div>
+
+        <script>
+            var ctx = document.getElementById('myChart');
+
+            var chartInfo = {
+                type: 'bar',
+                data: {
+                    labels: [{% for draw in labels %}
+                                "{{ draw }}",
+                                {% endfor %}
+                            ],
+                    datasets: [{
+                        label: '드로우 호기별 이상내역',
+                        data: [{% for rate in values %}
+                                "{{rate}}",
+                                {% endfor %}
+                            ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                    },
+                    indexAxis: 'y',
+                    scales: {
+                        yAxes: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: '드로우 설비 번호',
+                                color: '#191',
+                                font: {
+                                        size: 15,
+                                        weight: 'bold',
+                                        lineHeight: 1.2,
+                                },
+                                padding: {top: 20, left: 0, right: 0, bottom: 10}
+                            }
+                        },
+                        xAxes: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'NCR 발생율 [%]',
+                                color: '#191',
+                                font: {
+                                        size: 15,
+                                        weight: 'bold',
+                                        lineHeight: 1.2,
+                                },
+                                padding: {top: 10, left: 0, right: 0, bottom: 0}
+                            }
+                        },
+                    },
+                }
+            };
+
+            var myChart = new Chart(ctx, chartInfo);
+        </script>
+    <!--<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>-->
+</body>
+</html>

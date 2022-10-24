@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수율 조회</title>
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>-->
+    <style>
+        .search-input{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 80%;
+        }
+        .input{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        label{
+            margin-right: 30px;
+        }
+        .character{
+            display: flex;
+            justify-content:space-between;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .form-container{
+            display: flex;
+            justify-content: space-around;
+        }
+        .box{
+            margin-left: 30px;
+        }
+    </style>
+</head>
+<body>
+        {% include 'navbar.html' %}
+        <h3 style="margin-left: 50px; color: gray; margin-top: 20px;">수율을 분석합니다</h3>
+
+        <div class="box">
+            <form action="{{ url_for('yield.cal_yield') }}" method="POST">
+                <div class="search-input">
+                    <div class="input">
+                        <div class="in">
+                            <label>조회 시작일</label>
+                        </div>
+                        <div class="in">
+                            <input type="date" class="form-control" name="start_date" id="today_start">
+                        </div>
+                    </div>
+                    <div class="input">
+                        <div class="in">
+                            <label>조회 종료일</label>
+                        </div>
+                        <div class="in">
+                            <input type="date" class="form-control" name="stop_date" id="today_stop">
+                        </div>
+                    </div>
+                    <div class="input">
+                        <div class="in">
+                            <label>레진 타입</label>
+                        </div>
+                        {% if rList %}
+                        <div class="in">
+                            <select class="form-select" name="resin" style="font-size: 17px;">
+                                {% for resin in rList %}
+                                    {% if resin != 'None' %}
+                                    {% if resin == 'V' %}
+                                    <option selected="selected" value="{{ resin }}">{{ resin }}</option>
+                                    {% else %}
+                                    <option value="{{ resin }}">{{ resin }}</option>
+                                    {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="input">
+                        <div class="in">
+                            <label>제품 구분</label>
+                        </div>
+                        {% if productType %}
+                        <div class="in">
+                            <select class="form-select" name="productType" style="font-size: 17px;">
+                                {% for type in productType %}
+                                    <option value="{{ type }}">{{ type }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="input">
+                        <input type="submit" class="btn btn-dark" value="수율 조회">
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <div class="part1">
+                        <div class="character">
+                            <div class="seg">
+                                <label>1310nm 광손실</label>
+                            </div>
+                            <div class="seg">
+                                <input type="text" class="form-control" name="att1310" value="0.340">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>1550nm 광손실</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="att1550" value="0.205">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>1383nm 광손실</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="att1383" value="0.305">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>1625nm 광손실</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="att1625" value="0.215">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>MFD 하한</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="mfd1310L" value="8.8">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>MFD 상한</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="mfd1310U" value="9.2">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>차단파장</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="cutoff" value="1260">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>클래드 외경 하한</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="cladDiaL" value="124.3">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>클래드 외경 상한</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="cladDiaU" value="125.7">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>클래드 비원율</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="cladovo" value="0.8">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>ECC</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="ecc" value="0.5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="part2">
+                        <div class="character">
+                            <div class="seg">
+                            <label>코팅외경 하한</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="coat2L" value="235">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>코팅외경 상한</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="coat2U" value="255">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>영분산 파장 하한</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="zwlL" value="1302">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>영분산 파장 상한</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="zwlU" value="1322">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>영분산 기울기</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="slope" value="0.092">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>색분산 계수 @1285nm</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="disp1285" value="3.2">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>색분산 계수 @1290nm</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="disp1290" value="3.1">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>색분산 계수 @1550nm</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="disp1550" value="17.5">
+                            </div>
+                        </div>
+
+                        <div class="character">
+                            <div class="seg">
+                            <label>PMD</label>
+                            </div>
+                            <div class="seg">
+                            <input type="text" class="form-control" name="pmd" value="0.08">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>
+            let today = new Date();
+            document.getElementById("today_start").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+            document.getElementById("today_stop").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        </script>
+</body>
+</html>

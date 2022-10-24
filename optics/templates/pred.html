@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Tren 조회결과</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>
+    <style>
+        h3{
+            margin-left: 20px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+        {% include 'navbar.html' %}
+
+        <h3 style="color: gray; margin-top: 30px; margin-left: 50px;">드로우 {{ draw }}호기의 데이터 입니다</h3>
+
+        <div class="predict-table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="thead-dark">
+                        <th>꼬리표 번호</th>
+                        <th>예측 차단파장 [nm]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(0, 20) %}
+                        <tr>
+                            <td>{{ spoolID[i] }}</td>
+                            <td>{{ y_pred[i] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+</body>
+</html>

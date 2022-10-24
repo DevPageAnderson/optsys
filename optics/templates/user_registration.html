@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 등록</title>
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>-->
+    <style>
+        .form-items{
+            width: 25%;
+            display: flex;
+            justify-content: space-between;
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+        {% include 'navbar.html' %}
+        <h3 style="color: gray; margin-top: 30px; margin-left: 50px;">신규 사용자 등록을 진행합니다</h3>
+        <p style="color: gray; margin-left: 50px">사용자의 e-mail 주소를 입력하세요</p>
+        <form action="{{ url_for('user.registration') }}" method="POST">
+            <div class="form-items">
+                <div>
+            <input type="email" class="form-control" name="email" placeholder="e-mail 주소">
+            </div>
+            <div>
+            <input type="submit" class="btn btn-dark" value="사용자 등록">
+            </div>
+            </div>
+        </form>   
+    <!--<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>-->
+</body>
+</html>
